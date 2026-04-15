@@ -12,7 +12,7 @@
  * Board: Arduino Uno R4 WiFi  (also works with Uno WiFi Rev2 — swap WiFiS3 → WiFiNINA)
  */
 
-#include <WiFiS3.h>        // Arduino Uno R4 WiFi — change to <WiFiNINA.h> for Rev2
+#include <WiFiNINA.h>       // Arduino Uno R4 WiFi — change to <WiFiNINA.h> for Rev2
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
