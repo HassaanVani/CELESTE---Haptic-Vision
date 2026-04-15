@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HapticVision</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header id="header">
+    <div class="header-left">
+        <h1>HAPTIC<span class="accent">VISION</span></h1>
+        <span class="subtitle">CELESTE Sensory Substitution</span>
+    </div>
+    <div class="header-right">
+        <span id="connection-status" class="status disconnected">
+            <span class="status-dot"></span>
+            <span id="status-text">Disconnected</span>
+        </span>
+        <button id="settings-btn" title="Settings">&#9881;</button>
+    </div>
+</header>
+
+<!-- Settings Panel -->
+<div id="settings-overlay" class="hidden">
+    <div id="settings-panel">
+        <div class="settings-header">
+            <h2>Settings</h2>
+            <button id="settings-close">&times;</button>
+        </div>
+        <div class="settings-body">
+            <fieldset>
+                <legend>Arduino Connection</legend>
+                <label>
+                    IP Address
+                    <input type="text" id="arduino-ip" value="192.168.1.100" placeholder="192.168.1.100">
+                </label>
+                <label>
+                    Port
+                    <input type="number" id="arduino-port" value="80" min="1" max="65535">
+                </label>
+                <button id="btn-connect" class="btn-primary">Connect</button>
+            </fieldset>
+            <fieldset>
+                <legend>Processing</legend>
+                <label>
+                    Gamma <span id="gamma-val">1.5</span>
+                    <input type="range" id="gamma" min="0.5" max="3.0" step="0.1" value="1.5">
+                </label>
+                <label>
+                    Brightness Floor <span id="floor-val">20</span>
+                    <input type="range" id="brightness-floor" min="0" max="100" step="1" value="20">
+                </label>
+                <label>
+                    Brightness Ceiling <span id="ceil-val">240</span>
+                    <input type="range" id="brightness-ceil" min="150" max="255" step="1" value="240">
+                </label>
+                <label>
+                    Update Rate (Hz) <span id="hz-val">20</span>
+                    <input type="range" id="update-rate" min="5" max="30" step="1" value="20">
+                </label>
+            </fieldset>
+            <fieldset>
+                <legend>Camera</legend>
+                <label>
+                    Source
+                    <select id="camera-select">
+                        <option value="">Loading cameras...</option>
+                    </select>
+                </label>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main>
+    <!-- Camera Panel -->
+    <section id="camera-panel">
+        <div class="panel-header">Camera Feed</div>
+        <div class="canvas-wrap">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="camera-canvas"></canvas>
+            <canvas id="grid-overlay"></canvas>
+        </div>
+        <div class="panel-footer">
+            <button id="btn-start" class="btn-primary">Start</button>
+            <button id="btn-stop" class="btn-secondary hidden">Stop</button>
+        </div>
+    </section>
+
+    <!-- Right Column -->
+    <aside id="right-col">
+        <!-- Motor Grid -->
+        <section id="motor-panel">
+            <div class="panel-header">Motor Grid</div>
+            <div class="motor-grid-wrap">
+                <span class="arm-label top">WRIST</span>
+                <canvas id="motor-canvas"></canvas>
+                <span class="arm-label bottom">ELBOW</span>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section id="stats-panel">
+            <div class="panel-header">Telemetry</div>
+            <div class="stats-grid">
+                <div class="stat">
+                    <span class="stat-label">Camera FPS</span>
+                    <span class="stat-value" id="stat-fps">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Motor Hz</span>
+                    <span class="stat-value" id="stat-hz">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Latency</span>
+                    <span class="stat-value" id="stat-latency">--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Frames</span>
+                    <span class="stat-value" id="stat-frames">0</span>
+                </div>
+            </div>
+        </section>
+    </aside>
+</main>
+
+<script src="js/processor.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/connection.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
