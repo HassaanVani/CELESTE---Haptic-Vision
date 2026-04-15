@@ -1,0 +1,10 @@
+# Core pipeline (runs headless on the Pi)
+picamera2>=0.3.12
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+adafruit-circuitpython-pca9685>=3.4.0
+adafruit-blinka>=8.20.0
+RPi.GPIO>=0.7.1
+
+# Simulator / Dashboard (swap headless for GUI-enabled opencv)
+# pip install opencv-python>=4.8.0  (instead of opencv-python-headless)

@@ -1,0 +1,23 @@
+[Unit]
+Description=Haptic Vision Sensory Substitution System
+After=multi-user.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/haptic-vision
+ExecStart=/home/pi/haptic-vision/venv/bin/python main.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# Graceful shutdown: SIGTERM first, wait 10s, then SIGKILL
+TimeoutStopSec=10
+KillSignal=SIGTERM
+
+# Hardware access permissions
+SupplementaryGroups=i2c video gpio
+
+[Install]
+WantedBy=multi-user.target
