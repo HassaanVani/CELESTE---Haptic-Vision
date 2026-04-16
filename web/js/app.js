@@ -27,8 +27,6 @@
     const statFrames  = document.getElementById('stat-frames');
 
     // Settings inputs
-    const inpIp    = document.getElementById('arduino-ip');
-    const inpPort  = document.getElementById('arduino-port');
     const inpGamma = document.getElementById('gamma');
     const inpFloor = document.getElementById('brightness-floor');
     const inpCeil  = document.getElementById('brightness-ceil');
@@ -80,10 +78,17 @@
         v => { targetIntervalMs = 1000 / v; });
 
     btnConnect.addEventListener('click', async () => {
-        connection.updateAddress(inpIp.value.trim(), parseInt(inpPort.value, 10));
-        const status = await connection.checkStatus();
-        updateConnectionUI();
-        if (!status) alert('Could not reach Arduino at ' + connection.baseUrl);
+        if (!connection.connected) {
+            const success = await connection.connect();
+            if (success) {
+                btnConnect.textContent = 'Disconnect';
+                updateConnectionUI();
+            }
+        } else {
+            await connection.disconnect();
+            btnConnect.textContent = 'Connect via Serial';
+            updateConnectionUI();
+        }
     });
 
     // ── Camera list ────────────────────────────────

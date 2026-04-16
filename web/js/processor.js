@@ -5,8 +5,8 @@
  */
 class FrameProcessor {
     constructor() {
-        this.gridRows = 4;
-        this.gridCols = 8;
+        this.gridRows = 2;
+        this.gridCols = 4;
         this.gamma = 1.5;
         this.brightnessFloor = 20;
         this.brightnessCeil = 240;
