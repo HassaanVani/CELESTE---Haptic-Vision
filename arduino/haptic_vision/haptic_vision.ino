@@ -10,7 +10,7 @@
 
 // ── PCA9685 ────────────────────────────────────────
 static const uint8_t BOARD_ADDR_0 = 0x40;
-static const uint16_t PWM_FREQ    = 1000;    // 1 kHz — above ERM audible whine
+static const uint16_t PWM_FREQ    = 20;      // 20 Hz — maximum heavy rumble torque
 
 Adafruit_PWMServoDriver pwm0 = Adafruit_PWMServoDriver(BOARD_ADDR_0);
 
