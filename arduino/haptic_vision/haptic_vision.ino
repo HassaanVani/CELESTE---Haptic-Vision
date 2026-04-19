@@ -84,13 +84,31 @@ void loop() {
     }
 }
 
+// ── Motor intensity curve ──────────────────────────
+// Dead zone: values below this are treated as fully OFF
+static const uint8_t DEAD_ZONE = 25;
+// Minimum duty cycle when motor is active (40% of 4095)
+static const uint16_t MIN_DUTY = 1638;
+// Maximum duty cycle
+static const uint16_t MAX_DUTY = 4095;
+
 void applyMotors(uint8_t *values) {
     for (uint8_t i = 0; i < NUM_MOTORS; i++) {
         // Only update channels that changed
         if (values[i] == currentMotors[i]) continue;
         currentMotors[i] = values[i];
 
-        uint16_t duty12 = ((uint16_t)values[i] * 4095) / 255;   // 0-255 → 0-4095
+        uint16_t duty12;
+        if (values[i] < DEAD_ZONE) {
+            // Dead zone: motor fully off
+            duty12 = 0;
+        } else {
+            // Remap [DEAD_ZONE..255] → [0..255]
+            uint16_t remapped = ((uint16_t)(values[i] - DEAD_ZONE) * 255) / (255 - DEAD_ZONE);
+            // Quadratic curve for dramatic separation: (x/255)^2 * (MAX-MIN) + MIN
+            uint32_t squared = (uint32_t)remapped * remapped;  // 0..65025
+            duty12 = MIN_DUTY + (uint16_t)((squared * (uint32_t)(MAX_DUTY - MIN_DUTY)) / 65025UL);
+        }
 
         pwm0.setPWM(i, 0, duty12);
     }
